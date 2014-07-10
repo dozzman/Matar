@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A5E3482196763480036DFFD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A5E3481196763480036DFFD /* Cocoa.framework */; };
+		2A5E3482196763480036DFFD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A5E3481196763480036DFFD /* Cocoa.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2A5E348C196763480036DFFD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A5E348A196763480036DFFD /* InfoPlist.strings */; };
 		2A5E348E196763490036DFFD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5E348D196763490036DFFD /* main.m */; };
 		2A5E3492196763490036DFFD /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A5E3490196763490036DFFD /* Credits.rtf */; };
@@ -18,6 +18,15 @@
 		2A5E34A2196763490036DFFD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A5E3481196763480036DFFD /* Cocoa.framework */; };
 		2A5E34AA196763490036DFFD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A5E34A8196763490036DFFD /* InfoPlist.strings */; };
 		2A5E34AC196763490036DFFD /* MatarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5E34AB196763490036DFFD /* MatarTests.m */; };
+		2A63FC3719686B8200789BDC /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A63FC3619686B8200789BDC /* libsqlite3.dylib */; };
+		2A63FC3A1968769800789BDC /* TrackDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A63FC391968769800789BDC /* TrackDatabase.m */; };
+		2A690F2A196DC3B100CD525F /* SCAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A690F29196DC3B100CD525F /* SCAPI.m */; };
+		2A690F2D196DC53700CD525F /* SCRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A690F2C196DC53700CD525F /* SCRequest.m */; };
+		2A690F30196DC54000CD525F /* SCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A690F2F196DC54000CD525F /* SCResponse.m */; };
+		2A690F33196DCA3600CD525F /* SCTracksResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A690F32196DCA3600CD525F /* SCTracksResponse.m */; };
+		2A690F36196DCA4500CD525F /* SCUsersResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A690F35196DCA4500CD525F /* SCUsersResponse.m */; };
+		2A690F39196E1FCE00CD525F /* SCTrackInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A690F38196E1FCE00CD525F /* SCTrackInfo.m */; };
+		2A690F3C196E1FE000CD525F /* SCUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A690F3B196E1FE000CD525F /* SCUserInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +59,23 @@
 		2A5E34A7196763490036DFFD /* MatarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MatarTests-Info.plist"; sourceTree = "<group>"; };
 		2A5E34A9196763490036DFFD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2A5E34AB196763490036DFFD /* MatarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatarTests.m; sourceTree = "<group>"; };
+		2A63FC3619686B8200789BDC /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		2A63FC381968769800789BDC /* TrackDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrackDatabase.h; path = ../TrackDatabase.h; sourceTree = "<group>"; };
+		2A63FC391968769800789BDC /* TrackDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrackDatabase.m; path = ../TrackDatabase.m; sourceTree = "<group>"; };
+		2A690F28196DC3B100CD525F /* SCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAPI.h; sourceTree = "<group>"; };
+		2A690F29196DC3B100CD525F /* SCAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAPI.m; sourceTree = "<group>"; };
+		2A690F2B196DC53700CD525F /* SCRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCRequest.h; sourceTree = "<group>"; };
+		2A690F2C196DC53700CD525F /* SCRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCRequest.m; sourceTree = "<group>"; };
+		2A690F2E196DC54000CD525F /* SCResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCResponse.h; sourceTree = "<group>"; };
+		2A690F2F196DC54000CD525F /* SCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCResponse.m; sourceTree = "<group>"; };
+		2A690F31196DCA3600CD525F /* SCTracksResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTracksResponse.h; sourceTree = "<group>"; };
+		2A690F32196DCA3600CD525F /* SCTracksResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTracksResponse.m; sourceTree = "<group>"; };
+		2A690F34196DCA4500CD525F /* SCUsersResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCUsersResponse.h; sourceTree = "<group>"; };
+		2A690F35196DCA4500CD525F /* SCUsersResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCUsersResponse.m; sourceTree = "<group>"; };
+		2A690F37196E1FCE00CD525F /* SCTrackInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTrackInfo.h; sourceTree = "<group>"; };
+		2A690F38196E1FCE00CD525F /* SCTrackInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTrackInfo.m; sourceTree = "<group>"; };
+		2A690F3A196E1FE000CD525F /* SCUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCUserInfo.h; sourceTree = "<group>"; };
+		2A690F3B196E1FE000CD525F /* SCUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCUserInfo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A63FC3719686B8200789BDC /* libsqlite3.dylib in Frameworks */,
 				2A5E3482196763480036DFFD /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,6 +122,7 @@
 		2A5E3480196763480036DFFD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2A63FC3619686B8200789BDC /* libsqlite3.dylib */,
 				2A5E3481196763480036DFFD /* Cocoa.framework */,
 				2A5E34A0196763490036DFFD /* XCTest.framework */,
 				2A5E3483196763480036DFFD /* Other Frameworks */,
@@ -115,8 +143,24 @@
 		2A5E3487196763480036DFFD /* Matar */ = {
 			isa = PBXGroup;
 			children = (
+				2A63FC391968769800789BDC /* TrackDatabase.m */,
+				2A63FC381968769800789BDC /* TrackDatabase.h */,
 				2A5E3493196763490036DFFD /* AppDelegate.h */,
 				2A5E3494196763490036DFFD /* AppDelegate.m */,
+				2A690F2B196DC53700CD525F /* SCRequest.h */,
+				2A690F2C196DC53700CD525F /* SCRequest.m */,
+				2A690F31196DCA3600CD525F /* SCTracksResponse.h */,
+				2A690F32196DCA3600CD525F /* SCTracksResponse.m */,
+				2A690F34196DCA4500CD525F /* SCUsersResponse.h */,
+				2A690F35196DCA4500CD525F /* SCUsersResponse.m */,
+				2A690F2E196DC54000CD525F /* SCResponse.h */,
+				2A690F2F196DC54000CD525F /* SCResponse.m */,
+				2A690F28196DC3B100CD525F /* SCAPI.h */,
+				2A690F29196DC3B100CD525F /* SCAPI.m */,
+				2A690F37196E1FCE00CD525F /* SCTrackInfo.h */,
+				2A690F38196E1FCE00CD525F /* SCTrackInfo.m */,
+				2A690F3A196E1FE000CD525F /* SCUserInfo.h */,
+				2A690F3B196E1FE000CD525F /* SCUserInfo.m */,
 				2A5E3496196763490036DFFD /* MainMenu.xib */,
 				2A5E3499196763490036DFFD /* Images.xcassets */,
 				2A5E3488196763480036DFFD /* Supporting Files */,
@@ -252,7 +296,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A690F30196DC54000CD525F /* SCResponse.m in Sources */,
+				2A63FC3A1968769800789BDC /* TrackDatabase.m in Sources */,
+				2A690F3C196E1FE000CD525F /* SCUserInfo.m in Sources */,
+				2A690F2D196DC53700CD525F /* SCRequest.m in Sources */,
+				2A690F36196DCA4500CD525F /* SCUsersResponse.m in Sources */,
 				2A5E3495196763490036DFFD /* AppDelegate.m in Sources */,
+				2A690F39196E1FCE00CD525F /* SCTrackInfo.m in Sources */,
+				2A690F2A196DC3B100CD525F /* SCAPI.m in Sources */,
+				2A690F33196DCA3600CD525F /* SCTracksResponse.m in Sources */,
 				2A5E348E196763490036DFFD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -466,6 +518,7 @@
 				2A5E34B1196763490036DFFD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2A5E34B2196763490036DFFD /* Build configuration list for PBXNativeTarget "MatarTests" */ = {
 			isa = XCConfigurationList;
@@ -474,6 +527,7 @@
 				2A5E34B4196763490036DFFD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
