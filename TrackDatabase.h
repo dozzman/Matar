@@ -17,12 +17,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class sqlite3;
+enum CALLBACK_ID {
+    CALLBACK_TEST,
+    CALLBACK_CREATE_TABLES
+};
 
 // database object which manages the SQLite3 track database of downloaded songs
 @interface TrackDatabase : NSObject
 
-- (int)openDatabase;
-- (TrackDatabase*)getInstance;
++(TrackDatabase*)getInstance;
 
 @end

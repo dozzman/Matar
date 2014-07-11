@@ -14,7 +14,7 @@
 
 @property int limit;
 @property (strong) NSString* resource;
-@property (strong) NSString *id;
+@property (strong) NSString *ID;
 @property (strong) NSString *subresource;
 @property (strong) int(^callback)(SCResponse*);
 

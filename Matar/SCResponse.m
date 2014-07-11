@@ -10,4 +10,13 @@
 
 @implementation SCResponse
 
+-(id)init
+{
+    if (self = [super init])
+    {
+        [self setResult:[[NSMutableArray alloc] init]];
+    }
+    return self;
+}
+
 @end

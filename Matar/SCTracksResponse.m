@@ -10,4 +10,19 @@
 
 @implementation SCTracksResponse
 
+-(void)addTrackInfo:(SCTrackInfo*)info
+{
+    [[self result] addObject:info];
+    return;
+}
+
+-(id)init
+{
+    if (self = [super init])
+    {
+        [self setResourceType:TRACKS];
+    }
+    return self;
+}
+
 @end

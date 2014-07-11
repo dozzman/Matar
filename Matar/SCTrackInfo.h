@@ -11,10 +11,12 @@
 @interface SCTrackInfo : NSObject
 
 @property (strong) NSString *title;
-@property NSInteger id;
+@property NSInteger ID;
 @property (strong) NSDate *createdAt;
 @property (strong) NSString *tagList;
-@property (strong) NSString *userName;
+@property (strong) NSString *artist;
+@property (strong) NSString *genre;
+@property (strong) NSString *description;
 @property (strong) NSURL *streamURL;
 
 @end

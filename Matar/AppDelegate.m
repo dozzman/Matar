@@ -14,16 +14,15 @@
 #import "SCUsersResponse.h"
 #import "SCTracksResponse.h"
 #import "SCTrackInfo.h"
+#import "SCUserInfo.h"
 
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-
-    // TODO load client id from some file somewhere
-    
-    // Insert code here to initialize your application
-    [SCAPI newSCRequestWithResource: USERS WithID:@"sonarbear" WithCallback:^(SCResponse *response)
+    NSLog(@"Program Started");
+    SCRequest *newRequest =
+    [SCAPI newSCRequestWithResource: USERS WithID:@"sonarbear" WithSubresource:@"favorites" WithCallback:^(SCResponse *response)
     {
         NSLog(@"appdelegate callback launched");
         NSArray *result = [response result];
@@ -34,19 +33,22 @@
         {
             case USERS:
             {
-                //SCUsersResponse *userResponse = (SCUsersResponse*)response;
                 NSLog(@"User list returned");
+                for (long index = 0; index < count; index++)
+                {
+                    SCUserInfo *user = [result objectAtIndex:index];
+                    NSLog(@"ID: %d, Username: %@, AvatarURL: %@",[user ID],[user userName],[user avatarURL]);
+                }
             }
             break;
             
             case TRACKS:
             {
-                //SCTracksResponse *trackResponse = (SCTracksResponse*)response;
-                
+                NSLog(@"Track list returned");
                 for (long index = 0; index < count; index++)
                 {
                     SCTrackInfo *track = [result objectAtIndex:index];
-                    NSLog(@"%@",[track title]);
+                    NSLog(@"Artist: %@, Title: %@, Date: %@, StreamURL: %@",[track artist],[track title], [NSDateFormatter localizedStringFromDate:track.createdAt dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle], [track.streamURL path]);
                 }
             }
             break;
@@ -54,6 +56,8 @@
         
         return 0;
     }];
+
+    [[SCAPI getInstance] dispatch:newRequest];
 }
 
 @end

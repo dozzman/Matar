@@ -11,17 +11,15 @@
 @class SCRequest;
 @class SCResponse;
 
-enum SCResourceType
-{
-    USERS,
-    TRACKS
-};
-
 @interface SCAPI : NSObject
 
 +(SCRequest*)newSCRequestWithResource:(int)resource WithCallback:(int (^)(SCResponse*))callback;
-+(SCRequest*)newSCRequestWithResource:(int)resource WithID:(NSString*)id WithCallback:(int (^)(SCResponse*))callback;
-+(SCRequest*)newSCRequestWithResource:(int)resource WithID:(NSString*)id WithSubresource:(NSString*)subresource WithCallback:(int (^)(SCResponse*))callback;
++(SCRequest*)newSCRequestWithResource:(int)resource WithID:(NSString*)id
+                                                    WithCallback:(int (^)(SCResponse*))callback;
++(SCRequest*)newSCRequestWithResource:(int)resource WithID:(NSString*)id
+                                                    WithSubresource:(NSString*)subresource
+                                                    WithCallback:(int (^)(SCResponse*))callback;
++(SCAPI*)getInstance;
+-(void)dispatch:(SCRequest*)request;
 
-+(void)dispatch:(SCRequest*)request;
 @end

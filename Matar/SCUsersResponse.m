@@ -10,4 +10,19 @@
 
 @implementation SCUsersResponse
 
+-(void)addUserInfo:(SCUserInfo*)info
+{
+    [[self result] addObject:info];
+    return;
+}
+
+-(id)init
+{
+    if (self = [super init])
+    {
+        [self setResourceType:USERS];
+    }
+    return self;
+}
+
 @end

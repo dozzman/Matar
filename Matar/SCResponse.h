@@ -8,9 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+enum SCResourceType
+{
+    USERS,
+    TRACKS
+};
+
 @interface SCResponse : NSObject
 
 @property int resourceType;
-@property (strong) NSArray *result;
+@property (strong) NSMutableArray *result;
 
 @end

@@ -8,6 +8,11 @@
 
 #import "SCResponse.h"
 
+@class SCTrackInfo;
+
 @interface SCTracksResponse : SCResponse
+
+-(void)addTrackInfo:(SCTrackInfo*)info;
+-(id)init;
 
 @end

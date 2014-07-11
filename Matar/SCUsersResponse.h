@@ -8,6 +8,11 @@
 
 #import "SCResponse.h"
 
+@class SCUserInfo;
+
 @interface SCUsersResponse : SCResponse
+
+-(void)addUserInfo:(SCUserInfo*)info;
+-(id)init;
 
 @end
