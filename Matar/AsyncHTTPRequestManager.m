@@ -30,7 +30,8 @@ enum RequestDataArrayIndices
 {
     if (self = [super init])
     {
-        
+        [self setOpenConnections: CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks)];
+        [self setRequestQueue:[[NSMutableArray alloc]initWithCapacity:0]];
         [self setConnectionCount:[[NSNumber alloc] initWithInt:0]];
         [self setMaxConnections:[NSNumber numberWithInt:DEFAULT_MAX_CONNECTIONS]];
     }

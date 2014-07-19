@@ -25,6 +25,7 @@ enum DataRequestArrayIndices
 
 @property (strong) NSMutableArray * const requestQueue;
 @property CFMutableDictionaryRef openConnections;
+@property (strong) AsyncHTTPRequestManager *requestManager;
 
 -(void)executeHeadRequest;
 +(NSString*)resourceStringFromNumber:(int)resource;
@@ -48,6 +49,7 @@ static const int JSONLimit = 0x7fffff;
 {
     if (self = [super init])
     {
+        [self setRequestManager:[AsyncHTTPRequestManager init]];
         [self setRequestQueue:[[NSMutableArray alloc] init]];
         [self setOpenConnections: CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks)];
         NSError *e;

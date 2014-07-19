@@ -27,7 +27,7 @@ enum dataCallbackEnum
 @property CFMutableDictionaryRef openConnections;
 @property (strong) NSMutableArray *downloadQueue;
 @property (strong, readonly) NSNumber *maxConnections;
-@property (strong,)
+
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection;
