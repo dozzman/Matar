@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+@class SCTrackInfo;
+@class SCUserInfo;
+
 enum CALLBACK_ID {
     CALLBACK_TEST,
     CALLBACK_CREATE_TABLES
@@ -17,5 +20,9 @@ enum CALLBACK_ID {
 @interface TrackDatabase : NSObject
 
 +(TrackDatabase*)getInstance;
+-(bool)addTrack:(SCTrackInfo*)track;
+-(bool)addUser:(SCUserInfo*)user;
+-(bool)trackExists:(SCTrackInfo*)track;
+-(bool)userExists:(SCUserInfo*)user;
 
 @end
