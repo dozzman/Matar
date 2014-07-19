@@ -13,6 +13,7 @@
 #import "SCUsersResponse.h"
 #import "SCTracksResponse.h"
 #import "AsyncHTTPRequestManager.h"
+#import "AsyncHTTPResponse.h"
 
 enum DataRequestArrayIndices
 {
@@ -27,14 +28,9 @@ enum DataRequestArrayIndices
 @property CFMutableDictionaryRef openConnections;
 @property (strong) AsyncHTTPRequestManager *requestManager;
 
--(void)executeHeadRequest;
 +(NSString*)resourceStringFromNumber:(int)resource;
 +(SCTrackInfo*)trackInfoFromDictionary:(NSDictionary*)dict;
 +(SCUserInfo*)userInfoFromDictionary:(NSDictionary*)dict;
--(void)connectionDidFinishLoading:(NSURLConnection *)connection;
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
 
 
 @end
@@ -49,14 +45,12 @@ static const int JSONLimit = 0x7fffff;
 {
     if (self = [super init])
     {
-        [self setRequestManager:[AsyncHTTPRequestManager init]];
+        [self setRequestManager:[[AsyncHTTPRequestManager alloc] init]];
         [self setRequestQueue:[[NSMutableArray alloc] init]];
         [self setOpenConnections: CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks)];
         NSError *e;
         NSString *clientIDPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"clientID"];
-        NSLog(@"Using %@ as clientIDpath",clientIDPath);
         clientID = [[NSString stringWithContentsOfFile:clientIDPath encoding:NSUTF8StringEncoding error:&e] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSLog(@"Loaded clientID %@ from file",clientID);
     }
     
     return self;
@@ -74,139 +68,6 @@ static const int JSONLimit = 0x7fffff;
     });
     
     return singleton;
-}
-
-
-// the following connection methods manage the asynchronous JSON requests sent to the soundcloud servers.
-// the methods manage linking connections to their associated data and running any callbacks provided.
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    NSArray *dataRequestArray = (NSArray*)CFDictionaryGetValue(self.openConnections, (__bridge const void *)(connection));
-    
-    if (!dataRequestArray)
-    {
-        NSLog(@"Some connection transferred data without being in the connections dictionary");
-        return;
-    }
-    
-    NSMutableData *dictData = (NSMutableData*)[dataRequestArray objectAtIndex:DATA_INDEX];
-    
-    NSLog(@"Received a little data...");
-    [dictData appendData:data];
-    
-    return;
-}
-
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    // extract data
-    NSArray *dataRequestArray = (NSArray*)CFDictionaryGetValue(self.openConnections, (__bridge const void *)(connection));
-    NSMutableData *data = (NSMutableData*)[dataRequestArray objectAtIndex:DATA_INDEX];
-    SCRequest *request = (SCRequest*)[dataRequestArray objectAtIndex:REQUEST_INDEX];
-    NSError *e;
-    
-    // debugging //////
-    NSString *stringOfData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"Received Data:\n\n%@",stringOfData);
-    ///////////////////
-    
-    // serialise the data and call the callback
-    id jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&e];
-    if ([jsonData isKindOfClass:[NSDictionary class]])
-    {
-        // its a single item which is described in its 'kind' dictionary entry
-        // could be track, user, etc
-        NSString *jsonDataType = [(NSDictionary*)jsonData objectForKey:@"kind"];
-        
-        if ([jsonDataType isEqual: @"user"])
-        {
-            SCUserInfo *userInfo = [SCAPI userInfoFromDictionary:(NSDictionary*)jsonData];
-            SCUsersResponse *response = [[SCUsersResponse alloc] init];
-            [response addUserInfo:userInfo];
-            dispatch_async(dispatch_get_main_queue(),
-            ^{
-               [request callback](response);
-            });
-        }
-        else if ([jsonDataType isEqual:@"track"])
-        {
-            SCTrackInfo *trackInfo = [SCAPI trackInfoFromDictionary:(NSDictionary*)jsonData];
-            SCTracksResponse *response = [[SCTracksResponse alloc] init];
-            [response addTrackInfo:trackInfo];
-            dispatch_async(dispatch_get_main_queue(),
-            ^{
-               [request callback](response);
-            });
-        }
-        else
-        {
-            NSLog(@"Unknown json type");
-        }
-    }
-    else if ([jsonData isKindOfClass:[NSArray class]])
-    {
-        // next level down must be a dictionary
-        NSArray *jsonArray = (NSArray*)jsonData;
-        NSDictionary *firstItem = [jsonArray objectAtIndex:0];
-        long count = [jsonArray count];
-        NSString *jsonDataType = [firstItem objectForKey:@"kind"];
-        
-        if ([jsonDataType isEqual:@"user"])
-        {
-            SCUsersResponse *response = [[SCUsersResponse alloc] init];
-            for (long index = 0; index < count; index++)
-            {
-                NSDictionary *item = [jsonArray objectAtIndex:index];
-                [response addUserInfo: [SCAPI userInfoFromDictionary:item]];
-            }
-            dispatch_async(dispatch_get_main_queue(),
-            ^{
-               [request callback](response);
-            });
-
-        }
-        else if ([jsonDataType isEqual:@"track"])
-        {
-            SCTracksResponse *response = [[SCTracksResponse alloc] init];
-            for (long index = 0; index < count; index++)
-            {
-                NSDictionary *item = [jsonArray objectAtIndex:index];
-                [response addTrackInfo: [SCAPI trackInfoFromDictionary:item]];
-            }
-            dispatch_async(dispatch_get_main_queue(),
-            ^{
-               [request callback](response);
-            });
-        }
-        else
-        {
-            NSLog(@"Unknown json type");
-        }
-    }
-    
-    // remove connection entry from dictionary
-    CFDictionaryRemoveValue(self.openConnections, (__bridge const void*)connection);
-    
-    return;
-}
-
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    // on failiure, remove the connection dictionary entry and run the callback with a nil value to express failiure
-    SCRequest* request = CFDictionaryGetValue(self.openConnections, (__bridge const void*)connection);
-    
-    dispatch_async(dispatch_get_main_queue(),
-    ^{
-        [request callback](nil);
-    });
-    CFDictionaryRemoveValue(self.openConnections, (__bridge const void *)(connection));
-    
-    
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    NSLog(@"Received NSURLResponse with content length %lld",[response expectedContentLength]);
 }
 
 +(SCRequest*)newSCRequestWithResource:(int)resource WithCallback:(int (^)(SCResponse *))callback
@@ -241,23 +102,6 @@ static const int JSONLimit = 0x7fffff;
 // begin asynchronous JSON request on object
 -(void)dispatch:(SCRequest*)request
 {
-    NSLog(@"Request added to queue");
-    [self.requestQueue addObject:request];
-    [self performSelector:@selector(executeHeadRequest)];
-    
-}
-
-// executes the first SCRequest object on the queue and subsequently queues up any more for execution
--(void)executeHeadRequest
-{
-    SCRequest *request = [self.requestQueue objectAtIndex:0];
-    [self.requestQueue removeObjectAtIndex:0];
-    
-    // chain execution of the SoundCloud requests
-    if ([self.requestQueue count] > 0)
-    {
-        [self performSelector:@selector(executeHeadRequest)];
-    }
     
     NSMutableString *requestString = [NSMutableString stringWithFormat:@"%@/%@",SChost,[request resource]];
     
@@ -271,14 +115,82 @@ static const int JSONLimit = 0x7fffff;
     }
     
     [requestString appendFormat:@".json?client_id=%@&limit=%d", clientID, JSONLimit];
-    NSLog(@"sending request: %@",requestString);
     NSMutableURLRequest *urlrequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestString]];
     [urlrequest setHTTPMethod:@"GET"];
     [urlrequest setValue:@"no-cache" forHTTPHeaderField:@"Cache-Control"];
-    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:urlrequest delegate:self];
-    
-    CFDictionaryAddValue(self.openConnections, (void*)conn,(void*)[NSArray arrayWithObjects:[NSMutableData dataWithCapacity:0],request, nil]);
-    
+    [self.requestManager dispatchRequest:urlrequest WithCallback:
+    ^(AsyncHTTPResponse* response)
+    {
+        NSData *data = response.data;
+        NSError *e;
+        // serialise the data and call the callback
+        id jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&e];
+        if ([jsonData isKindOfClass:[NSDictionary class]])
+        {
+            // its a single item which is described in its 'kind' dictionary entry
+            // could be track, user, etc
+            NSString *jsonDataType = [(NSDictionary*)jsonData objectForKey:@"kind"];
+            
+            if ([jsonDataType isEqual: @"user"])
+            {
+                SCUserInfo *userInfo = [SCAPI userInfoFromDictionary:(NSDictionary*)jsonData];
+                SCUsersResponse *response = [[SCUsersResponse alloc] init];
+                [response addUserInfo:userInfo];
+                dispatch_async(dispatch_get_main_queue(),
+                ^{
+                   [request callback](response);
+                });
+            }
+            else if ([jsonDataType isEqual:@"track"])
+            {
+                SCTrackInfo *trackInfo = [SCAPI trackInfoFromDictionary:(NSDictionary*)jsonData];
+                SCTracksResponse *response = [[SCTracksResponse alloc] init];
+                [response addTrackInfo:trackInfo];
+                dispatch_async(dispatch_get_main_queue(),
+                ^{
+                   [request callback](response);
+                });
+            }
+            // otherwise unknown json type
+        }
+        else if ([jsonData isKindOfClass:[NSArray class]])
+        {
+            // next level down must be a dictionary
+            NSArray *jsonArray = (NSArray*)jsonData;
+            NSDictionary *firstItem = [jsonArray objectAtIndex:0];
+            long count = [jsonArray count];
+            NSString *jsonDataType = [firstItem objectForKey:@"kind"];
+            
+            if ([jsonDataType isEqual:@"user"])
+            {
+                SCUsersResponse *response = [[SCUsersResponse alloc] init];
+                for (long index = 0; index < count; index++)
+                {
+                    NSDictionary *item = [jsonArray objectAtIndex:index];
+                    [response addUserInfo: [SCAPI userInfoFromDictionary:item]];
+                }
+                dispatch_async(dispatch_get_main_queue(),
+                ^{
+                   [request callback](response);
+                });
+
+            }
+            else if ([jsonDataType isEqual:@"track"])
+            {
+                SCTracksResponse *response = [[SCTracksResponse alloc] init];
+                for (long index = 0; index < count; index++)
+                {
+                    NSDictionary *item = [jsonArray objectAtIndex:index];
+                    [response addTrackInfo: [SCAPI trackInfoFromDictionary:item]];
+                }
+                dispatch_async(dispatch_get_main_queue(),
+                ^{
+                   [request callback](response);
+                });
+            }
+            // otherwise unknown json type
+        }
+    }];
 }
 
 +(NSString*)resourceStringFromNumber:(int)resource

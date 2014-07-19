@@ -48,7 +48,7 @@ enum RequestDataArrayIndices
     return self;
 }
 
--(void)queueRequest:(NSURLRequest*)request
+-(void)dispatchRequest:(NSURLRequest*)request
 {
     AsyncHTTPRequest *asyncRequest = [[AsyncHTTPRequest alloc] initWithRequest:request];
     [self.requestQueue addObject:asyncRequest];
@@ -58,10 +58,14 @@ enum RequestDataArrayIndices
     });
 }
 
--(void)queueRequest:(NSURLRequest*)request WithCallback:(void (^)(AsyncHTTPResponse*))callback
+-(void)dispatchRequest:(NSURLRequest*)request WithCallback:(void (^)(AsyncHTTPResponse*))callback
 {
     AsyncHTTPRequest *asyncRequest = [[AsyncHTTPRequest alloc] initWithRequest:request WithCallback:callback];
     [self.requestQueue addObject:asyncRequest];
+    dispatch_async(dispatch_get_main_queue(),
+    ^{
+        [self executeHeadRequest];
+    });
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection

@@ -6,15 +6,6 @@
 //  Copyright (c) 2014 Vereia. All rights reserved.
 //
 
-// debgugging macros
-#define DEBUG_ENABLED
-
-#ifdef DEBUG_ENABLED
-#define debugLog(...) NSLog(__VA_ARGS__)
-#else
-#define debugLog(...)
-#endif
-
 #import <Foundation/Foundation.h>
 
 enum CALLBACK_ID {

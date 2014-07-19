@@ -93,11 +93,9 @@ enum dataCallbackEnum
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSLog(@"Program Started");
     SCRequest *newRequest =
     [SCAPI newSCRequestWithResource: USERS WithID:@"sonarbear" WithSubresource:@"favorites" WithCallback:^(SCResponse *response)
     {
-        NSLog(@"appdelegate callback launched");
         NSArray *result = [response result];
         
         long count = [result count];

@@ -17,8 +17,8 @@
 @property (strong) NSNumber *maxConnections;
 @property (strong, readonly) NSNumber *connectionCount;     // total number of concurrent active connections
 
--(void)queueRequest:(NSURLRequest*)request;
--(void)queueRequest:(NSURLRequest*)request WithCallback:(void (^)(AsyncHTTPResponse*))callback;
+-(void)dispatchRequest:(NSURLRequest*)request;
+-(void)dispatchRequest:(NSURLRequest*)request WithCallback:(void (^)(AsyncHTTPResponse*))callback;
 -(id)initWithMaxConnections:(NSUInteger)maxCons;
 
 @end
