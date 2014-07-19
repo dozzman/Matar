@@ -8,13 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+#define DEFAULT_MAX_CONNECTIONS 5
+
+@class AsyncHTTPResponse;
+
 @interface AsyncHTTPRequestManager : NSObject
 
 @property (strong) NSNumber *maxConnections;
 @property (strong, readonly) NSNumber *connectionCount;     // total number of concurrent active connections
 
 -(void)queueRequest:(NSURLRequest*)request;
--(void)queueRequest:(NSURLRequest*)request WithCallback:(void (^)(NSData*))callback;
--(id)initWithMaxConnections:(NSUInteger);
+-(void)queueRequest:(NSURLRequest*)request WithCallback:(void (^)(AsyncHTTPResponse*))callback;
+-(id)initWithMaxConnections:(NSUInteger)maxCons;
 
 @end

@@ -12,6 +12,7 @@
 #import "SCUserInfo.h"
 #import "SCUsersResponse.h"
 #import "SCTracksResponse.h"
+#import "AsyncHTTPRequestManager.h"
 
 enum DataRequestArrayIndices
 {
