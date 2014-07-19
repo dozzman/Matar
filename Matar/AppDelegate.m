@@ -16,7 +16,80 @@
 #import "SCTrackInfo.h"
 #import "SCUserInfo.h"
 
+@interface AppDelegate () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+
+enum dataCallbackEnum
+{
+    DATA_INDEX,
+    CALLBACK_INDEX
+};
+
+@property CFMutableDictionaryRef openConnections;
+@property (strong) NSMutableArray *downloadQueue;
+@property (strong, readonly) NSNumber *maxConnections;
+@property (strong,)
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection;
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
+-(bool)downloadTrack:(SCTrackInfo*)trackInfo WithCallback:(void (^)(NSData*))callback;
+
+@end
+
 @implementation AppDelegate
+
+-(id)init
+{
+    if (self = [super init])
+    {
+        // initialise ivars
+        [self setOpenConnections:CFDictionaryCreateMutable(CFAllocatorGetDefault(), 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks)];
+        [self setDownloadQueue:[[NSMutableArray alloc] init]];
+    }
+    return self;
+}
+
+// this set of connection functions deal with downloading mp3 tracks from soundcloud
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    // call the callback with nil as a parameter to express failure
+    NSArray *dataCallbackArray = CFDictionaryGetValue(self.openConnections, (__bridge const void *)(connection));
+    void (^callback)(NSData*) = [dataCallbackArray objectAtIndex:CALLBACK_INDEX];
+    
+    dispatch_async(dispatch_get_main_queue(),
+    ^{
+        callback(nil);
+    });
+
+    CFDictionaryRemoveValue(self.openConnections, (__bridge const void*)connection);
+
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    NSArray *dataCallbackArray = CFDictionaryGetValue(self.openConnections, (__bridge const void *)(connection));
+    NSMutableData *currentData = [dataCallbackArray objectAtIndex:DATA_INDEX];
+    [currentData appendData:data];
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    // HTTPRequest was successful, nothing much to do here...
+}
+
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSArray *dataCallbackArray = CFDictionaryGetValue(self.openConnections, (__bridge const void *)(connection));
+    NSData *data = [dataCallbackArray objectAtIndex:DATA_INDEX];
+    void (^callback)(NSData*) = [dataCallbackArray objectAtIndex:CALLBACK_INDEX];
+    
+    dispatch_async(dispatch_get_main_queue(),
+    ^{
+        callback(data);
+    });
+    
+    CFDictionaryRemoveValue(self.openConnections, (__bridge const void*)connection);
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -58,6 +131,16 @@
     }];
 
     [[SCAPI getInstance] dispatch:newRequest];
+}
+
+-(bool)downloadTrack:(SCTrackInfo*)trackInfo WithCallback:(void (^)(NSData*))callback
+{    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:trackInfo.streamURL];
+    [request setHTTPMethod:@"GET"];
+    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    CFDictionaryAddValue(self.openConnections, (__bridge const void*)conn, (__bridge const void*)[NSArray arrayWithObjects:[NSMutableData dataWithCapacity:0], callback, nil]);
+    
+    return true;
 }
 
 @end

@@ -73,6 +73,9 @@ static const int JSONLimit = 0x7fffff;
     return singleton;
 }
 
+
+// the following connection methods manage the asynchronous JSON requests sent to the soundcloud servers.
+// the methods manage linking connections to their associated data and running any callbacks provided.
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     NSArray *dataRequestArray = (NSArray*)CFDictionaryGetValue(self.openConnections, (__bridge const void *)(connection));
@@ -179,14 +182,23 @@ static const int JSONLimit = 0x7fffff;
     }
     
     // remove connection entry from dictionary
-    CFDictionaryRemoveValue(self.openConnections, (void*)connection);
+    CFDictionaryRemoveValue(self.openConnections, (__bridge const void*)connection);
     
     return;
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    //TODO deal with errors here
+    // on failiure, remove the connection dictionary entry and run the callback with a nil value to express failiure
+    SCRequest* request = CFDictionaryGetValue(self.openConnections, (__bridge const void*)connection);
+    
+    dispatch_async(dispatch_get_main_queue(),
+    ^{
+        [request callback](nil);
+    });
+    CFDictionaryRemoveValue(self.openConnections, (__bridge const void *)(connection));
+    
+    
 }
 
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -223,6 +235,7 @@ static const int JSONLimit = 0x7fffff;
     return request;
 }
 
+// begin asynchronous JSON request on object
 -(void)dispatch:(SCRequest*)request
 {
     NSLog(@"Request added to queue");
@@ -231,6 +244,7 @@ static const int JSONLimit = 0x7fffff;
     
 }
 
+// executes the first SCRequest object on the queue and subsequently queues up any more for execution
 -(void)executeHeadRequest
 {
     SCRequest *request = [self.requestQueue objectAtIndex:0];
