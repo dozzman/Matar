@@ -39,7 +39,7 @@ enum DataRequestArrayIndices
 
 static NSString *clientID;
 static NSString * const SChost = @"http://api.soundcloud.com";
-static const int JSONLimit = 0x7fffff;
+static const int JSONLimit = 10;//0x7fffff;
 
 -(id)init
 {
@@ -220,6 +220,7 @@ static const int JSONLimit = 0x7fffff;
     [trackInfo setID:[(NSNumber*)[dict objectForKey:@"id"] intValue]];
     [trackInfo setGenre:[dict objectForKey:@"genre"]];
     [trackInfo setDescription:[dict objectForKey:@"description"]];
+    [trackInfo setCoverURL:[NSURL URLWithString:(NSString*)[dict objectForKey:@"artwork_url"]]];
     NSString *newDate = [[dict objectForKey:@"created_at"] stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
     [trackInfo setCreatedAt:[NSDate dateWithString:newDate]];
     NSString *artist = [(NSDictionary*)[dict objectForKey:@"user"] objectForKey:@"username"];
@@ -234,7 +235,7 @@ static const int JSONLimit = 0x7fffff;
     SCUserInfo *userInfo = [[SCUserInfo alloc] init];
     [userInfo setUserName:[dict objectForKey:@"username"]];
     [userInfo setID:[(NSNumber*)[dict objectForKey:@"id"] intValue]];
-    [userInfo setAvatarURL:[dict objectForKey:@"avatar_url"]];
+    [userInfo setAvatarURL:[NSURL URLWithString:(NSString*)[dict objectForKey:@"avatar_url"]]];
     
     return userInfo;
 }

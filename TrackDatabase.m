@@ -62,7 +62,7 @@ static int sqlCallback(void *NotUsed, int colCount, char **colValue, char **colN
         const char * createUsers =  "CREATE TABLE users (                   "
                                     "   User_ID int NOT NULL,               "
                                     "   Username text NOT NULL,             "
-                                    "   Avatar text,                        "
+                                    "   AvatarURL text,                     "
                                     "   PRIMARY KEY (User_ID)               "
                                     ");                                     ";
         const char * createLikes =  "CREATE TABLE likes (                   "
@@ -78,6 +78,7 @@ static int sqlCallback(void *NotUsed, int colCount, char **colValue, char **colN
                                     "   Date text,                          "
                                     "   Tag_list text,                      "
                                     "   Description text,                   "
+                                    "   CoverURL text,                      "
                                     "   PRIMARY KEY (Track_ID)              "
                                     ");                                     ";
         
@@ -111,6 +112,7 @@ static int sqlCallback(void *callbackID, int colCount, char **colValue, char **c
 
 -(bool)addTrack:(SCTrackInfo *)track
 {
+    // TODO could more efficiently allocate buffer globally rather than on every stack call
     char buffer[165536];
     char SQLStatement[165536];
     strncpy(SQLStatement, "INSERT INTO tracks VALUES(", 165536);
@@ -160,6 +162,14 @@ static int sqlCallback(void *callbackID, int colCount, char **colValue, char **c
     NSString *description = [track.description stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     strncat(SQLStatement,[description UTF8String],[description length]);
     strncat(SQLStatement,"\"",1);
+    strncat(SQLStatement,",",1);
+    
+    // coverURL
+    strncat(SQLStatement,"\"",1);
+    NSString *coverURL = [[track.coverURL absoluteString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    strncat(SQLStatement,[coverURL UTF8String],[coverURL length]);
+    strncat(SQLStatement,"\"",1);
+    
     
     strncat(SQLStatement,")",1);
     
@@ -176,16 +186,59 @@ static int sqlCallback(void *callbackID, int colCount, char **colValue, char **c
 -(bool)addUser:(SCUserInfo *)user
 {
 
+    char buffer[165536];
+    char SQLStatement[165536];
+    strncpy(SQLStatement, "INSERT INTO users VALUES(", 165536);
+    
+    // ID
+    sprintf(buffer, "%d",(int)user.ID);
+    strncat(SQLStatement,buffer,strlen(buffer));
+    strncat(SQLStatement,",",1);
+    
+    // username
+    strncat(SQLStatement,"\"",1);
+    NSString *userName = [user.userName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    strncat(SQLStatement,[userName UTF8String],[userName length]);
+    strncat(SQLStatement,"\"",1);
+    strncat(SQLStatement,",",1);
+    
+    // avatarURL
+    strncat(SQLStatement,"\"",1);
+    NSString *avatarURL = [[user.avatarURL absoluteString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    strncat(SQLStatement,[avatarURL UTF8String],[avatarURL length]);
+    strncat(SQLStatement,"\"",1);
+    
+    strncat(SQLStatement,")",1);
+    
+    int rc = sqlite3_exec(self.database, SQLStatement, &sqlCallback, (void*)NULL, NULL);
+    
+    if (rc)
+    {
+        //something went wrong
+        return false;
+    }
     return true;
 }
 
 -(bool)trackExists:(SCTrackInfo *)track
+{
+    
+    return true;
+}
+
+-(bool)trackExistsWithID:(NSUInteger)ID
 {
 
     return true;
 }
 
 -(bool)userExists:(SCUserInfo *)user
+{
+
+    return true;
+}
+
+-(bool)userExistsWithID:(NSUInteger)ID
 {
 
     return true;

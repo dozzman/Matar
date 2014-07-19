@@ -55,7 +55,8 @@
                 for (long index = 0; index < count; index++)
                 {
                     SCUserInfo *user = [result objectAtIndex:index];
-                    NSLog(@"ID: %d, Username: %@, AvatarURL: %@",[user ID],[user userName],[user avatarURL]);
+                    [[TrackDatabase getInstance] addUser:user];
+                    //NSLog(@"ID: %d, Username: %@, AvatarURL: %@",(int)user.ID,user.userName,user.avatarURL);
                 }
             }
             break;
@@ -66,8 +67,8 @@
                 for (long index = 0; index < count; index++)
                 {
                     SCTrackInfo *track = [result objectAtIndex:index];
-                    /*NSLog(@"Artist: %@, Title: %@, Date: %@, StreamURL: %@",[track artist],[track title], [NSDateFormatter localizedStringFromDate:track.createdAt dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle], [track.streamURL path]);*/
                     [[TrackDatabase getInstance] addTrack:track];
+                    /*NSLog(@"Artist: %@, Title: %@, Date: %@, StreamURL: %@",[track artist],[track title], [NSDateFormatter localizedStringFromDate:track.createdAt dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle], [track.streamURL path]);*/
                 }
             }
             break;

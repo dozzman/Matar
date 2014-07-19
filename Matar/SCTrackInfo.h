@@ -18,5 +18,5 @@
 @property (strong) NSString *genre;
 @property (strong) NSString *description;
 @property (strong) NSURL *streamURL;
-
+@property (strong) NSURL *coverURL;
 @end

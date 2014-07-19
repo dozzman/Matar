@@ -10,7 +10,7 @@
 
 @interface SCUserInfo : NSObject
 
-@property int ID;
+@property NSInteger ID;
 @property (strong) NSString *userName;
 @property (strong) NSURL *avatarURL;
 

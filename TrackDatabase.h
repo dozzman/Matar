@@ -23,6 +23,8 @@ enum CALLBACK_ID {
 -(bool)addTrack:(SCTrackInfo*)track;
 -(bool)addUser:(SCUserInfo*)user;
 -(bool)trackExists:(SCTrackInfo*)track;
+-(bool)trackExistsWithID:(NSUInteger)ID;
 -(bool)userExists:(SCUserInfo*)user;
+-(bool)userExistsWithID:(NSUInteger)ID;
 
 @end
