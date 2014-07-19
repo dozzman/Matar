@@ -8,6 +8,13 @@
 
 #import "AsyncHTTPRequest.h"
 
+@interface AsyncHTTPRequest ()
+
+@property (strong) NSURLRequest* request;
+@property (strong) void (^callback)(AsyncHTTPResponse*);
+
+@end
+
 @implementation AsyncHTTPRequest
 
 -(id)initWithRequest:(NSURLRequest*)request

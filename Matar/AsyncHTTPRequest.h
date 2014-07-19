@@ -12,8 +12,8 @@
 
 @interface AsyncHTTPRequest : NSObject
 
-@property (strong) NSURLRequest* request;
-@property (strong) void (^callback)(AsyncHTTPResponse*);
+@property (strong, readonly) NSURLRequest* request;
+@property (strong, readonly) void (^callback)(AsyncHTTPResponse*);
 
 -(id)initWithRequest:(NSURLRequest*)request;
 -(id)initWithRequest:(NSURLRequest *)request WithCallback:(void (^)(AsyncHTTPResponse*))callback;
