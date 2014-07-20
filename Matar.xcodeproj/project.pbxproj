@@ -66,8 +66,8 @@
 		2A5E34A9196763490036DFFD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2A5E34AB196763490036DFFD /* MatarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatarTests.m; sourceTree = "<group>"; };
 		2A63FC3619686B8200789BDC /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		2A63FC381968769800789BDC /* TrackDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrackDatabase.h; path = ../TrackDatabase.h; sourceTree = "<group>"; };
-		2A63FC391968769800789BDC /* TrackDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrackDatabase.m; path = ../TrackDatabase.m; sourceTree = "<group>"; };
+		2A63FC381968769800789BDC /* TrackDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackDatabase.h; sourceTree = "<group>"; };
+		2A63FC391968769800789BDC /* TrackDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackDatabase.m; sourceTree = "<group>"; };
 		2A690F28196DC3B100CD525F /* SCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAPI.h; sourceTree = "<group>"; };
 		2A690F29196DC3B100CD525F /* SCAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAPI.m; sourceTree = "<group>"; };
 		2A690F2B196DC53700CD525F /* SCRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCRequest.h; sourceTree = "<group>"; };
