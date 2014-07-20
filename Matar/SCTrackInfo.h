@@ -16,7 +16,7 @@
 @property (strong) NSString *tagList;
 @property (strong) NSString *artist;
 @property (strong) NSString *genre;
-@property (strong) NSString *description;
+@property (strong) NSString *trackDescription;
 @property (strong) NSURL *streamURL;
 @property (strong) NSURL *coverURL;
 @end

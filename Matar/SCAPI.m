@@ -70,7 +70,7 @@ static const int JSONLimit = 10;//0x7fffff;
     return singleton;
 }
 
-+(SCRequest*)newSCRequestWithResource:(int)resource WithCallback:(int (^)(SCResponse *))callback
++(SCRequest*)newSCRequestWithResource:(int)resource WithCallback:(void (^)(SCResponse *))callback
 {
     SCRequest *request = [SCRequest alloc];
     [request setResource:[self resourceStringFromNumber:resource]];
@@ -78,7 +78,7 @@ static const int JSONLimit = 10;//0x7fffff;
     return request;
 }
 
-+(SCRequest*)newSCRequestWithResource:(int)resource WithID:(NSString *)ID WithCallback:(int (^)(SCResponse *))callback
++(SCRequest*)newSCRequestWithResource:(int)resource WithID:(NSString *)ID WithCallback:(void (^)(SCResponse *))callback
 {
     SCRequest *request = [SCRequest alloc];
     [request setResource:[self resourceStringFromNumber:resource]];
@@ -88,7 +88,7 @@ static const int JSONLimit = 10;//0x7fffff;
     return request;
 }
 
-+(SCRequest*)newSCRequestWithResource:(int)resource WithID:(NSString *)ID WithSubresource:(NSString *)subresource WithCallback:(int (^)(SCResponse *))callback
++(SCRequest*)newSCRequestWithResource:(int)resource WithID:(NSString *)ID WithSubresource:(NSString *)subresource WithCallback:(void (^)(SCResponse *))callback
 {
     SCRequest *request = [SCRequest alloc];
     [request setResource:[self resourceStringFromNumber:resource]];
@@ -219,7 +219,7 @@ static const int JSONLimit = 10;//0x7fffff;
     [trackInfo setStreamURL:[NSURL URLWithString:[dict objectForKey:@"stream_url"]]];
     [trackInfo setID:[(NSNumber*)[dict objectForKey:@"id"] intValue]];
     [trackInfo setGenre:[dict objectForKey:@"genre"]];
-    [trackInfo setDescription:[dict objectForKey:@"description"]];
+    [trackInfo setTrackDescription:[dict objectForKey:@"description"]];
     [trackInfo setCoverURL:[NSURL URLWithString:(NSString*)[dict objectForKey:@"artwork_url"]]];
     NSString *newDate = [[dict objectForKey:@"created_at"] stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
     [trackInfo setCreatedAt:[NSDate dateWithString:newDate]];
@@ -240,5 +240,30 @@ static const int JSONLimit = 10;//0x7fffff;
     return userInfo;
 }
 
+// after downloading and writing the track to disk, the callback returns true if everything was successful and
+// false if an error occurred.
+-(void)downloadTrack:(SCTrackInfo*)trackInfo ToLocationWithURL:(NSURL*)location WithCallback:(void (^)(bool))callback
+{
+    NSURL *authURL = [NSURL URLWithString:[NSString stringWithFormat:@"?%@=%@",@"client_id",clientID] relativeToURL:trackInfo.streamURL];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:authURL];
+    [request setHTTPMethod:@"GET"];
+    [self.requestManager dispatchRequest:request WithCallback:
+    ^(AsyncHTTPResponse *response)
+    {
+        // important to check if data returned or if an error occurred
+        if (response.data == nil)
+        {
+            callback(false);
+        }
+        
+        // write data to file
+        [response.data writeToURL:location atomically:true];
+        
+        // since writing may have taken some time, run the next callback asynchronously
+        dispatch_async(dispatch_get_main_queue(), ^{
+            callback(true);
+        });
+    }];
+}
 
 @end

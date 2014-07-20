@@ -10,16 +10,18 @@
 
 @class SCRequest;
 @class SCResponse;
+@class SCTrackInfo;
 
 @interface SCAPI : NSObject
 
-+(SCRequest*)newSCRequestWithResource:(int)resource WithCallback:(int (^)(SCResponse*))callback;
++(SCRequest*)newSCRequestWithResource:(int)resource WithCallback:(void (^)(SCResponse*))callback;
 +(SCRequest*)newSCRequestWithResource:(int)resource WithID:(NSString*)id
-                                                    WithCallback:(int (^)(SCResponse*))callback;
+                                                    WithCallback:(void (^)(SCResponse*))callback;
 +(SCRequest*)newSCRequestWithResource:(int)resource WithID:(NSString*)id
                                                     WithSubresource:(NSString*)subresource
-                                                    WithCallback:(int (^)(SCResponse*))callback;
+                                                    WithCallback:(void (^)(SCResponse*))callback;
 +(SCAPI*)getInstance;
 -(void)dispatch:(SCRequest*)request;
+-(void)downloadTrack:(SCTrackInfo*)trackInfo ToLocationWithURL:(NSURL*)location WithCallback:(void (^)(bool))callback;
 
 @end

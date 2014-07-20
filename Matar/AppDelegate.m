@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import <sqlite3.h>
+#include <sqlite3.h>
 #import "TrackDatabase.h"
 #import "SCAPI.h"
 #import "SCResponse.h"
@@ -22,8 +22,6 @@
 
 @property (strong) AsyncHTTPRequestManager *requestManager;
 
--(bool)downloadTrack:(SCTrackInfo*)trackInfo WithCallback:(void (^)(NSData*))callback;
-
 @end
 
 @implementation AppDelegate
@@ -32,7 +30,6 @@
 {
     if (self = [super init])
     {
-        // initialise ivars and properties
         [self setRequestManager:[[AsyncHTTPRequestManager alloc] init]];
     }
     return self;
@@ -81,28 +78,14 @@
                             [[TrackDatabase getInstance] addTrack:track];
                         }
                     }];
-                    /*NSLog(@"Artist: %@, Title: %@, Date: %@, StreamURL: %@",[track artist],[track title], [NSDateFormatter localizedStringFromDate:track.createdAt dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle], [track.streamURL path]);*/
+                    NSLog(@"Artist: %@, Title: %@, Date: %@, StreamURL: %@",[track artist],[track title], [NSDateFormatter localizedStringFromDate:track.createdAt dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle], [track.streamURL path]);
                 }
             }
             break;
         }
-        
-        return 0;
-    }];
-
-    [[SCAPI getInstance] dispatch:newRequest];
-}
-
--(bool)downloadTrack:(SCTrackInfo*)trackInfo WithCallback:(void (^)(NSData*))callback
-{    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:trackInfo.streamURL];
-    [request setHTTPMethod:@"GET"];
-    [self.requestManager dispatchRequest:request WithCallback:
-    ^(AsyncHTTPResponse *response) {
-        callback(response.data);
     }];
     
-    return true;
+    [[SCAPI getInstance] dispatch:newRequest];
 }
 
 @end

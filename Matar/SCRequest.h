@@ -16,6 +16,6 @@
 @property (strong) NSString* resource;
 @property (strong) NSString *ID;
 @property (strong) NSString *subresource;
-@property (strong) int(^callback)(SCResponse*);
+@property (strong) void(^callback)(SCResponse*);
 
 @end
