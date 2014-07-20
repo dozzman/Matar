@@ -20,11 +20,11 @@ enum CALLBACK_ID {
 @interface TrackDatabase : NSObject
 
 +(TrackDatabase*)getInstance;
--(bool)addTrack:(SCTrackInfo*)track;
--(bool)addUser:(SCUserInfo*)user;
--(bool)trackExists:(SCTrackInfo*)track;
--(bool)trackExistsWithID:(NSUInteger)ID;
--(bool)userExists:(SCUserInfo*)user;
--(bool)userExistsWithID:(NSUInteger)ID;
+-(int)addTrack:(SCTrackInfo*)track;
+-(int)addUser:(SCUserInfo*)user;
+-(int)trackExists:(SCTrackInfo*)track WithCallback:(void (^)(bool))callback;
+-(int)trackExistsWithID:(NSUInteger)ID WithCallback:(void (^)(bool))callback;
+-(int)userExists:(SCUserInfo*)user WithCallback:(void (^)(bool))callback;
+-(int)userExistsWithID:(NSUInteger)ID WithCallback:(void (^)(bool))callback;
 
 @end
