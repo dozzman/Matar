@@ -26,5 +26,6 @@ enum CALLBACK_ID {
 -(int)trackExistsWithID:(NSUInteger)ID WithCallback:(void (^)(bool))callback;
 -(int)userExists:(SCUserInfo*)user WithCallback:(void (^)(bool))callback;
 -(int)userExistsWithID:(NSUInteger)ID WithCallback:(void (^)(bool))callback;
+-(void)cleanup;
 
 @end

@@ -28,6 +28,12 @@ static NSString * const databaseFilename = @"track_db.sqlite3";
 static int sqlExistsCallback(void *NotUsed, int colCount, char **colValue, char **colName);
 static NSUInteger bufferSize = 165536*sizeof(char);
 
+-(void)cleanup
+{
+    sqlite3_close([self database]);
+    return;
+}
+
 -(id)init
 {
     if (self = [super init])
