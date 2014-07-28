@@ -82,6 +82,15 @@ enum RequestDataArrayIndices
     });
     
     CFDictionaryRemoveValue(self.openConnections, (__bridge const void*)connection);
+    
+    [self setConnectionCount:[[NSNumber alloc] initWithInt:([self.connectionCount intValue] - 1)]];
+    if ([self.requestQueue count])
+    {
+        dispatch_async(dispatch_get_main_queue(),
+        ^{
+            [self executeHeadRequest];
+        });
+    }
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -101,7 +110,14 @@ enum RequestDataArrayIndices
     });
     
     CFDictionaryRemoveValue(self.openConnections, (__bridge const void*)connection);
-    
+    [self setConnectionCount:[[NSNumber alloc] initWithInt:([self.connectionCount intValue] - 1)]];
+    if ([self.requestQueue count])
+    {
+        dispatch_async(dispatch_get_main_queue(),
+        ^{
+            [self executeHeadRequest];
+        });
+    }
     return;
     
 }
