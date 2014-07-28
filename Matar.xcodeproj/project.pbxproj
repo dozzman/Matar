@@ -46,6 +46,7 @@
 /* Begin PBXFileReference section */
 		2A4A121B19747D0700B8FA1C /* AsyncHTTPRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncHTTPRequestManager.h; sourceTree = "<group>"; };
 		2A4A121C19747D0700B8FA1C /* AsyncHTTPRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncHTTPRequestManager.m; sourceTree = "<group>"; };
+		2A50CF291986956D002BD392 /* iTunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunes.h; sourceTree = "<group>"; };
 		2A5E347E196763480036DFFD /* Matar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Matar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A5E3481196763480036DFFD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2A5E3484196763480036DFFD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -154,6 +155,7 @@
 		2A5E3487196763480036DFFD /* Matar */ = {
 			isa = PBXGroup;
 			children = (
+				2A50CF291986956D002BD392 /* iTunes.h */,
 				2A63FC391968769800789BDC /* TrackDatabase.m */,
 				2A63FC381968769800789BDC /* TrackDatabase.h */,
 				2A5E3493196763490036DFFD /* AppDelegate.h */,

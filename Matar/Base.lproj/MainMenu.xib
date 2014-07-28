@@ -691,7 +691,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="downloadLocation:" target="Voe-Tx-rLC" id="WhM-6k-6n6"/>
+                            <action selector="setDownloadLocation:" target="Voe-Tx-rLC" id="kej-13-B77"/>
                         </connections>
                     </button>
                 </subviews>

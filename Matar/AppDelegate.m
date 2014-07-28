@@ -49,25 +49,21 @@
 {
     NSError *err;
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    
     NSURL *plistURL = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"Defaults.plist"];
     
-    // if doesnt exist, create the file and store the default data inside
+    // load plist data or create a new one
     bool success = [fileManager fileExistsAtPath:[plistURL path]];
-    
     if (!success)
     {
         NSData *defaultPlistData = [NSPropertyListSerialization dataWithPropertyList:[self plistDefaults] format:NSPropertyListXMLFormat_v1_0 options:0 error:&err];
         
         if (err != nil)
         {
-            NSLog(@"Failed to serialise the default property list data");
             return;
         }
         
         if (![fileManager createFileAtPath:[plistURL path] contents:defaultPlistData attributes:NULL])
         {
-            NSLog(@"Failed to create %@",[plistURL path]);
             return;
         }
     }
@@ -76,7 +72,6 @@
     NSData *plistData = [NSData dataWithContentsOfURL:plistURL];
     if (plistData == nil)
     {
-        NSLog(@"Failed to load property list data from file");
         return;
     }
     
@@ -85,18 +80,15 @@
     
     if (err != nil)
     {
-        // error whilst loading the property list file
-        NSLog(@"Failed to serialise property list");
+        // error whilst deserialising the property list file
         return;
     }
     
     [self setPlistDefaults:plist];
     
+    // DEBUGGING ///////////////////////////
     NSEnumerator *enumerator = [[self plistDefaults] keyEnumerator];
-    
     NSString *key = nil;
-    NSLog(@"Enumerating dictionary...");
-    
     while (key = [enumerator nextObject])
     {
         NSLog(@"%@ = %@",key,[[self plistDefaults] objectForKey:key]);
@@ -104,6 +96,7 @@
     
     // run the test code for now
     [self testcode];
+    // DEBUGGING ///////////////////////////
 }
 
 // test code separates production code from testing
@@ -168,7 +161,7 @@
     [[SCAPI getInstance] dispatch:newRequest];
 }
 
-- (IBAction)downloadLocation:(id)sender
+- (IBAction)setDownloadLocation:(id)sender
 {
     NSString *newDownloadLocation = [[self downloadLocationText] stringValue];
     NSMutableDictionary *plist = [self plistDefaults];

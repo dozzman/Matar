@@ -8,11 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class iTunesTrack;
+
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 @property (strong,readonly) NSMutableDictionary *plistDefaults;
 @property (weak) IBOutlet NSTextField *downloadLocationText;
 
-- (IBAction)downloadLocation:(id)sender;
+- (IBAction)setDownloadLocation:(id)sender;
+
 @end
