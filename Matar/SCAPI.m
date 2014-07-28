@@ -257,11 +257,11 @@ static const int JSONLimit = 10;//0x7fffff;
         }
         
         // write data to file
-        [response.data writeToURL:location atomically:true];
-        
+        bool success = [[NSFileManager defaultManager] createFileAtPath:[location path] contents:response.data attributes:nil];
         // since writing may have taken some time, run the next callback asynchronously
         dispatch_async(dispatch_get_main_queue(), ^{
-            callback(true);
+            callback(success);
+            
         });
     }];
 }

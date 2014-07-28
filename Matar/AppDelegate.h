@@ -8,8 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class iTunesTrack;
-
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;

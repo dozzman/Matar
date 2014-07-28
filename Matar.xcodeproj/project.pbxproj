@@ -31,6 +31,7 @@
 		2A690F3E196F71F000CD525F /* clientID in Resources */ = {isa = PBXBuildFile; fileRef = 2A690F3D196F71F000CD525F /* clientID */; };
 		2A820267197AB34500654DCC /* AsyncHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A820266197AB34500654DCC /* AsyncHTTPRequest.m */; };
 		2A82026A197AD34A00654DCC /* AsyncHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A820269197AD34A00654DCC /* AsyncHTTPResponse.m */; };
+		2AAE2CB81986AB480026388D /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AAE2CB71986AB480026388D /* ScriptingBridge.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +47,6 @@
 /* Begin PBXFileReference section */
 		2A4A121B19747D0700B8FA1C /* AsyncHTTPRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncHTTPRequestManager.h; sourceTree = "<group>"; };
 		2A4A121C19747D0700B8FA1C /* AsyncHTTPRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncHTTPRequestManager.m; sourceTree = "<group>"; };
-		2A50CF291986956D002BD392 /* iTunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunes.h; sourceTree = "<group>"; };
 		2A5E347E196763480036DFFD /* Matar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Matar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A5E3481196763480036DFFD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2A5E3484196763480036DFFD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -84,10 +84,12 @@
 		2A690F3A196E1FE000CD525F /* SCUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCUserInfo.h; sourceTree = "<group>"; };
 		2A690F3B196E1FE000CD525F /* SCUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCUserInfo.m; sourceTree = "<group>"; };
 		2A690F3D196F71F000CD525F /* clientID */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = clientID; sourceTree = SOURCE_ROOT; };
+		2A6D31C51986AE7A00BFB5F3 /* iTunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunes.h; sourceTree = "<group>"; };
 		2A820265197AB34500654DCC /* AsyncHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncHTTPRequest.h; sourceTree = "<group>"; };
 		2A820266197AB34500654DCC /* AsyncHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncHTTPRequest.m; sourceTree = "<group>"; };
 		2A820268197AD34A00654DCC /* AsyncHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncHTTPResponse.h; sourceTree = "<group>"; };
 		2A820269197AD34A00654DCC /* AsyncHTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncHTTPResponse.m; sourceTree = "<group>"; };
+		2AAE2CB71986AB480026388D /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AAE2CB81986AB480026388D /* ScriptingBridge.framework in Frameworks */,
 				2A63FC3719686B8200789BDC /* libsqlite3.dylib in Frameworks */,
 				2A5E3482196763480036DFFD /* Cocoa.framework in Frameworks */,
 			);
@@ -134,6 +137,7 @@
 		2A5E3480196763480036DFFD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2AAE2CB71986AB480026388D /* ScriptingBridge.framework */,
 				2A63FC3619686B8200789BDC /* libsqlite3.dylib */,
 				2A5E3481196763480036DFFD /* Cocoa.framework */,
 				2A5E34A0196763490036DFFD /* XCTest.framework */,
@@ -155,7 +159,7 @@
 		2A5E3487196763480036DFFD /* Matar */ = {
 			isa = PBXGroup;
 			children = (
-				2A50CF291986956D002BD392 /* iTunes.h */,
+				2A6D31C51986AE7A00BFB5F3 /* iTunes.h */,
 				2A63FC391968769800789BDC /* TrackDatabase.m */,
 				2A63FC381968769800789BDC /* TrackDatabase.h */,
 				2A5E3493196763490036DFFD /* AppDelegate.h */,
@@ -465,6 +469,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Matar/Matar-Prefix.pch";
 				INFOPLIST_FILE = "Matar/Matar-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -478,6 +483,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Matar/Matar-Prefix.pch";
 				INFOPLIST_FILE = "Matar/Matar-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

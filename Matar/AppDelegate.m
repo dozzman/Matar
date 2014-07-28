@@ -17,11 +17,13 @@
 #import "SCUserInfo.h"
 #import "AsyncHTTPRequestManager.h"
 #import "AsyncHTTPResponse.h"
+#import "iTunes.h"
 
 @interface AppDelegate () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 @property (strong) AsyncHTTPRequestManager *requestManager;
 @property (strong) NSMutableDictionary *plistDefaults;
+@property (strong) iTunesApplication  *iTunes;
 
 -(void)testcode;
 
@@ -86,6 +88,10 @@
     
     [self setPlistDefaults:plist];
     
+    // open up itunes scripting bridge
+    
+    [self setITunes:[SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"]];
+    
     // DEBUGGING ///////////////////////////
     NSEnumerator *enumerator = [[self plistDefaults] keyEnumerator];
     NSString *key = nil;
@@ -107,7 +113,7 @@
     
     // set the textfield to the value of the download folder location
     NSString *downloadLocation = (NSString*)[[self plistDefaults] valueForKey:@"DownloadLocation"];
-    //[[self downloadLocationText] setValue:downloadLocation];
+    NSURL *downloadLocationURL = [NSURL URLWithString:downloadLocation];
     [[self downloadLocationText] setStringValue:downloadLocation];
     
     SCRequest *newRequest =
@@ -139,6 +145,8 @@
             
             case TRACKS:
             {
+                //int *atomicCounter = (int*)malloc(sizeof(int));
+               // NSMutableArray *trackArray = [NSMutableArray arrayWithCapacity:0];
                 NSLog(@"Track list returned");
                 for (long index = 0; index < count; index++)
                 {
@@ -151,7 +159,38 @@
                             [[TrackDatabase getInstance] addTrack:track];
                         }
                     }];
-                    NSLog(@"Artist: %@, Title: %@, Date: %@, StreamURL: %@",[track artist],[track title], [NSDateFormatter localizedStringFromDate:track.createdAt dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle], [track.streamURL path]);
+                    NSLog(@"Artist: %@, Title: %@, Date: %@, StreamURL: %@",track.artist,track.title, [NSDateFormatter localizedStringFromDate:track.createdAt dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle], [track.streamURL path]);
+                    
+                    NSURL *fileURL = [[downloadLocationURL URLByAppendingPathComponent:track.title] URLByAppendingPathExtension:@"mp3"];
+                    NSLog(@"Downloading track %@", [fileURL path]);
+                    [[SCAPI getInstance] downloadTrack:track ToLocationWithURL:fileURL WithCallback:
+                    ^(bool success) {
+                        if (success)
+                        {
+                            NSLog(@"Downloaded track %@",[fileURL path]);
+                        }
+                        else
+                        {
+                            NSLog(@"Failed to download file to %@",[fileURL path]);
+                        }
+                        /*(*atomicCounter)++;
+                        [trackArray addObject:[fileURL path]];
+                        if (*atomicCounter == count)
+                        {
+                            NSArray *filteredArray = [[self.iTunes sources] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %u",iTunesESrcLibrary]];
+                            
+                            if([filteredArray count])
+                            {
+                                iTunesSource *librarySource = [filteredArray objectAtIndex:0];
+                                iTunesLibraryPlaylist *mainLibrary = [librarySource.libraryPlaylists objectAtIndex:0];
+                                
+                                [self.iTunes add:trackArray to:mainLibrary];
+                            }
+                            
+                            
+                            free(atomicCounter);
+                        }*/
+                    }];
                 }
             }
             break;
