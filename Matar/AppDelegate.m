@@ -40,7 +40,9 @@
         NSError *err = nil;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSURL *defaultDownloadDirectory = [fileManager URLForDirectory:NSDownloadsDirectory inDomain:NSUserDomainMask appropriateForURL:NULL create:NO error:&err];
-        NSMutableDictionary *defaultPlistDefaults = [NSMutableDictionary dictionaryWithObjectsAndKeys:[defaultDownloadDirectory path],@"DownloadLocation", nil];
+        NSMutableDictionary *defaultPlistDefaults = [NSMutableDictionary dictionaryWithObjectsAndKeys:[defaultDownloadDirectory path],@"DownloadLocation",
+            @"Soundcloud",@"DefaultAlbum",
+            @"Soundcloud",@"DefaultAlbumArtist",nil];
         
         [self setRequestManager:[[AsyncHTTPRequestManager alloc] init]];
         [self setPlistDefaults:defaultPlistDefaults];
@@ -151,17 +153,19 @@
                 for (long index = 0; index < count; index++)
                 {
                     SCTrackInfo *track = [result objectAtIndex:index];
-                    [[TrackDatabase getInstance] trackExists:track WithCallback:
+                    /*[[TrackDatabase getInstance] trackExists:track WithCallback:
                     ^(bool exists)
                     {
                         if (!exists)
                         {
                             [[TrackDatabase getInstance] addTrack:track];
                         }
-                    }];
+                    }];*/
                     //NSLog(@"Artist: %@, Title: %@, Date: %@, StreamURL: %@",track.artist,track.title, [NSDateFormatter localizedStringFromDate:track.createdAt dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle], [track.streamURL path]);
                     
-                    NSURL *fileURL = [[downloadLocationURL URLByAppendingPathComponent:track.title] URLByAppendingPathExtension:@"mp3"];
+                    NSString *escapedTitle = [[track.title stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+                    
+                    NSURL *fileURL = [[downloadLocationURL URLByAppendingPathComponent:escapedTitle] URLByAppendingPathExtension:@"mp3"];
                     NSLog(@"Downloading track %@", [fileURL path]);
                     [[SCAPI getInstance] downloadTrack:track ToLocationWithURL:fileURL WithCallback:
                     ^(bool success) {
@@ -177,7 +181,14 @@
                             
                         iTunesTrack *itTrack = [self.iTunes add:[NSArray arrayWithObject:fileURL] to:nil];
                         NSLog(@"Added %@ to track: %@",[fileURL path],itTrack);
-                        [self initiTunesTrack:itTrack WithSCTrackInfo:track];
+                        
+                        // need to dispatch the metadata additions later since sometimes it can be ignored if
+                        // done too early
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),dispatch_get_main_queue(),
+                            ^{
+                                [self initiTunesTrack:itTrack WithSCTrackInfo:track];
+                            }
+                        );
                     }];
                 }
             }
@@ -227,10 +238,15 @@
 -(void)initiTunesTrack:(iTunesTrack*)itTrack WithSCTrackInfo:(SCTrackInfo*)trackInfo
 {
     [itTrack setName:trackInfo.title];
-    [itTrack setAlbumArtist:trackInfo.artist];
     [itTrack setArtist:trackInfo.artist];
     [itTrack setGenre:trackInfo.genre];
     [itTrack setYear:[[trackInfo.createdAt descriptionWithCalendarFormat:@"%Y" timeZone:nil locale:nil] intValue]];
+    [itTrack setAlbum:[self.plistDefaults objectForKey:@"DefaultAlbum"]];
+    [itTrack setAlbumArtist:[self.plistDefaults objectForKey:@"DefaultAlbumArtist"]];
+    
+    // setting as compilation is both technically correct and also means the songs are displayed in iTunes correctly, under the correct artist/album
+    [itTrack setCompilation:YES];
+    
 
 }
 @end
