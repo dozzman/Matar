@@ -18,6 +18,7 @@
 #import "AsyncHTTPRequestManager.h"
 #import "AsyncHTTPResponse.h"
 #import "iTunes.h"
+#import "MainView.h"
 
 @interface AppDelegate () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
@@ -91,6 +92,13 @@
     
     [self setPlistDefaults:plist];
     
+    MainView *mainView = [[MainView alloc] initWithFrame:((NSView*)self.window.contentView).frame];
+    self.window.contentView = mainView;
+    
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    return;
     // open up itunes scripting bridge
     
     [self setITunes:[SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"]];
@@ -117,7 +125,6 @@
     // set the textfield to the value of the download folder location
     NSString *downloadLocation = (NSString*)[[self plistDefaults] valueForKey:@"DownloadLocation"];
     NSURL *downloadLocationURL = [NSURL fileURLWithPath:downloadLocation];
-    [[self downloadLocationText] setStringValue:downloadLocation];
     
     SCRequest *newRequest =
     [SCAPI newSCRequestWithResource: USERS WithID:@"sonarbear" WithSubresource:@"favorites" WithCallback:^(SCResponse *response)
@@ -197,15 +204,6 @@
     }];
     
     [[SCAPI getInstance] dispatch:newRequest];
-}
-
-- (IBAction)setDownloadLocation:(id)sender
-{
-    NSString *newDownloadLocation = [[self downloadLocationText] stringValue];
-    NSMutableDictionary *plist = [self plistDefaults];
-    
-    [plist setValue:newDownloadLocation forKey:@"DownloadLocation"];
-    return;
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A3643A8198BE6A40097D2A2 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3643A7198BE6A40097D2A2 /* MainView.m */; };
+		2A3643AC198BE7DD0097D2A2 /* logo_100x100.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A3643A9198BE7DD0097D2A2 /* logo_100x100.png */; };
+		2A3643AD198BE7DD0097D2A2 /* logo_150x150.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A3643AA198BE7DD0097D2A2 /* logo_150x150.png */; };
+		2A3643AE198BE7DD0097D2A2 /* logo_200x200.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A3643AB198BE7DD0097D2A2 /* logo_200x200.png */; };
 		2A4A121D19747D0700B8FA1C /* AsyncHTTPRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A4A121C19747D0700B8FA1C /* AsyncHTTPRequestManager.m */; };
 		2A5E3482196763480036DFFD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A5E3481196763480036DFFD /* Cocoa.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2A5E348C196763480036DFFD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A5E348A196763480036DFFD /* InfoPlist.strings */; };
@@ -32,6 +36,7 @@
 		2A820267197AB34500654DCC /* AsyncHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A820266197AB34500654DCC /* AsyncHTTPRequest.m */; };
 		2A82026A197AD34A00654DCC /* AsyncHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A820269197AD34A00654DCC /* AsyncHTTPResponse.m */; };
 		2AAE2CB81986AB480026388D /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AAE2CB71986AB480026388D /* ScriptingBridge.framework */; };
+		2AFA1B94198FF43E00BE1BC1 /* logo_170x170.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AFA1B93198FF43E00BE1BC1 /* logo_170x170.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +50,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2A3643A6198BE6A40097D2A2 /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
+		2A3643A7198BE6A40097D2A2 /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
+		2A3643A9198BE7DD0097D2A2 /* logo_100x100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_100x100.png; sourceTree = "<group>"; };
+		2A3643AA198BE7DD0097D2A2 /* logo_150x150.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_150x150.png; sourceTree = "<group>"; };
+		2A3643AB198BE7DD0097D2A2 /* logo_200x200.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_200x200.png; sourceTree = "<group>"; };
 		2A4A121B19747D0700B8FA1C /* AsyncHTTPRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncHTTPRequestManager.h; sourceTree = "<group>"; };
 		2A4A121C19747D0700B8FA1C /* AsyncHTTPRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncHTTPRequestManager.m; sourceTree = "<group>"; };
 		2A5E347E196763480036DFFD /* Matar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Matar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +100,7 @@
 		2A820268197AD34A00654DCC /* AsyncHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncHTTPResponse.h; sourceTree = "<group>"; };
 		2A820269197AD34A00654DCC /* AsyncHTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncHTTPResponse.m; sourceTree = "<group>"; };
 		2AAE2CB71986AB480026388D /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
+		2AFA1B93198FF43E00BE1BC1 /* logo_170x170.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_170x170.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +195,8 @@
 				2A690F38196E1FCE00CD525F /* SCTrackInfo.m */,
 				2A690F3A196E1FE000CD525F /* SCUserInfo.h */,
 				2A690F3B196E1FE000CD525F /* SCUserInfo.m */,
+				2A3643A6198BE6A40097D2A2 /* MainView.h */,
+				2A3643A7198BE6A40097D2A2 /* MainView.m */,
 				2A5E3496196763490036DFFD /* MainMenu.xib */,
 				2A5E3499196763490036DFFD /* Images.xcassets */,
 				2A5E3488196763480036DFFD /* Supporting Files */,
@@ -194,6 +207,10 @@
 		2A5E3488196763480036DFFD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2AFA1B93198FF43E00BE1BC1 /* logo_170x170.png */,
+				2A3643A9198BE7DD0097D2A2 /* logo_100x100.png */,
+				2A3643AA198BE7DD0097D2A2 /* logo_150x150.png */,
+				2A3643AB198BE7DD0097D2A2 /* logo_200x200.png */,
 				2A690F3D196F71F000CD525F /* clientID */,
 				2A5E3489196763480036DFFD /* Matar-Info.plist */,
 				2A5E348A196763480036DFFD /* InfoPlist.strings */,
@@ -300,9 +317,13 @@
 			files = (
 				2A5E348C196763480036DFFD /* InfoPlist.strings in Resources */,
 				2A5E349A196763490036DFFD /* Images.xcassets in Resources */,
+				2A3643AD198BE7DD0097D2A2 /* logo_150x150.png in Resources */,
 				2A5E3492196763490036DFFD /* Credits.rtf in Resources */,
+				2A3643AC198BE7DD0097D2A2 /* logo_100x100.png in Resources */,
 				2A5E3498196763490036DFFD /* MainMenu.xib in Resources */,
 				2A690F3E196F71F000CD525F /* clientID in Resources */,
+				2AFA1B94198FF43E00BE1BC1 /* logo_170x170.png in Resources */,
+				2A3643AE198BE7DD0097D2A2 /* logo_200x200.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +351,7 @@
 				2A690F36196DCA4500CD525F /* SCUsersResponse.m in Sources */,
 				2A5E3495196763490036DFFD /* AppDelegate.m in Sources */,
 				2A690F39196E1FCE00CD525F /* SCTrackInfo.m in Sources */,
+				2A3643A8198BE6A40097D2A2 /* MainView.m in Sources */,
 				2A690F2A196DC3B100CD525F /* SCAPI.m in Sources */,
 				2A4A121D19747D0700B8FA1C /* AsyncHTTPRequestManager.m in Sources */,
 				2A690F33196DCA3600CD525F /* SCTracksResponse.m in Sources */,
