@@ -1,8 +1,8 @@
 //
-//  SCUsersResponse.m
+//  DownloadViewController.h
 //  Matar
 //
-//  Created by Dorian Peake on 09/07/2014.
+//  Created by Dorian Peake on 05/08/2014.
 //
 //  Matar, the Soundcloud Precipitation Inducer.
 //  Copyright (C) 2014  Dorian Peake
@@ -22,23 +22,8 @@
 //  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import "SCUsersResponse.h"
+#import <Cocoa/Cocoa.h>
 
-@implementation SCUsersResponse
-
--(void)addUserInfo:(SCUserInfo*)info
-{
-    [[self result] addObject:info];
-    return;
-}
-
--(id)init
-{
-    if (self = [super init])
-    {
-        [self setResourceType:USERS];
-    }
-    return self;
-}
+@interface DownloadViewController : NSViewController
 
 @end

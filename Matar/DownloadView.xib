@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6185.11" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6185.11"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="fPd-ZW-Txy" customClass="DownloadView">
+            <rect key="frame" x="0.0" y="0.0" width="440" height="71"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <progressIndicator maxValue="100" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="bgL-Fp-yFv">
+                    <rect key="frame" x="20" y="10" width="400" height="20"/>
+                </progressIndicator>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F2f-XP-9yD">
+                    <rect key="frame" x="18" y="43" width="404" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Downloading xxyyxx - xxyyxx..." id="xSz-7e-0a0">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="bgL-Fp-yFv" secondAttribute="trailing" constant="20" id="EHE-MG-8sf"/>
+                <constraint firstAttribute="centerY" secondItem="F2f-XP-9yD" secondAttribute="centerY" constant="16" id="P58-rG-YZN"/>
+                <constraint firstAttribute="trailing" secondItem="F2f-XP-9yD" secondAttribute="trailing" constant="20" id="lPn-42-cFe"/>
+                <constraint firstItem="F2f-XP-9yD" firstAttribute="leading" secondItem="fPd-ZW-Txy" secondAttribute="leading" constant="20" id="tnt-sj-l3y"/>
+                <constraint firstItem="bgL-Fp-yFv" firstAttribute="top" secondItem="F2f-XP-9yD" secondAttribute="bottom" constant="14" id="vrd-Jr-zKf"/>
+                <constraint firstItem="bgL-Fp-yFv" firstAttribute="leading" secondItem="fPd-ZW-Txy" secondAttribute="leading" constant="20" id="xR1-Ky-KV7"/>
+            </constraints>
+            <accessibility description="Download View"/>
+            <connections>
+                <outlet property="downloadLabel" destination="F2f-XP-9yD" id="J9A-wB-q6P"/>
+                <outlet property="downloadProgress" destination="bgL-Fp-yFv" id="KU8-Fe-e53"/>
+            </connections>
+            <point key="canvasLocation" x="259" y="542.5"/>
+        </customView>
+    </objects>
+</document>
